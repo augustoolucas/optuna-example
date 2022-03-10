@@ -19,8 +19,8 @@ class Digits(Dataset):
     def __len__(self):
         return len(self.data)
 
-    def forward(self, idx):
-        img = torch.from_numpy(self.data[idx])
+    def __getitem__(self, idx):
+        img = torch.from_numpy(self.data[idx]).float()
         target = self.targets[idx]
        
         return img, target

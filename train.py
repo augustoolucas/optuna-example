@@ -13,7 +13,8 @@ def main():
 
     ### ------ Loading Trainer ------ ###
     trainer = model_utils.Trainer(model, train_loader, 'Adam', 0.001)
-    trainer.train(10)
+    train_loss = trainer.train(10)
+    test_acc = trainer.test(test_loader)
     breakpoint()
 
 

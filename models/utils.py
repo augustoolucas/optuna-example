@@ -44,3 +44,16 @@ class Trainer():
             train_bar.set_description(f'Training Loss: {(epoch_loss/len(self.dataloader)):.03f} - Accuracy: {(epoch_acc/len(self.dataloader)):.03f}') 
         return epoch_loss/len(self.dataloader)
 
+    def test(self, dataloader):
+        self.model.eval(); self.model.zero_grad()
+
+        with torch.no_grad():
+            epoch_acc = 0
+            for imgs, targets in dataloader:
+                imgs  = imgs.to(device)
+                model_output = self.model(imgs)
+
+                predictions = torch.argmax(model_output, dim=1).tolist()
+                epoch_acc += accuracy_score(predictions, targets.detach().cpu().numpy())
+
+        return epoch_acc/len(dataloader)

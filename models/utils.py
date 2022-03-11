@@ -30,16 +30,17 @@ class Trainer():
             for imgs, targets in self.dataloader:
                 self.model.zero_grad()
                 imgs, targets = imgs.to(device), targets.to(device)
-                predictions = self.model(imgs)
+                model_output = self.model(imgs)
 
-                loss = self.loss_fn(predictions, targets)
+                loss = self.loss_fn(model_output, targets)
                 loss.backward()
                 self.optim.step()
 
                 ### ------ Training Metrics ------ ###
                 epoch_loss += loss.item()
-                predictions = torch.argmax(predictions, dim=1).tolist()
+                predictions = torch.argmax(model_output, dim=1).tolist()
                 epoch_acc += accuracy_score(predictions, targets.detach().cpu().numpy())
 
             train_bar.set_description(f'Training Loss: {(epoch_loss/len(self.dataloader)):.03f} - Accuracy: {(epoch_acc/len(self.dataloader)):.03f}') 
+        return epoch_loss/len(self.dataloader)
 

@@ -1,14 +1,12 @@
-from data import utils as data_utils
 from data.digits import Digits
 from models.models import Model
+from data import utils as data_utils
 from models import utils as model_utils
 
 def main():
     ### ------ Loading Data ------ ###
-    train_set = Digits(train=True)
-    test_set = Digits(train=False)
-    train_loader = data_utils.get_dataloader(train_set, batch_size=128)
-    test_loader = data_utils.get_dataloader(test_set, batch_size=128)
+    train_loader = data_utils.get_dataloader(Digits(train=True), batch_size=128)
+    test_loader = data_utils.get_dataloader(Digits(train=False), batch_size=128)
 
     ### ------ Loading Model ------ ###
     model = Model(1, 64)
